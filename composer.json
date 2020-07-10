@@ -1,0 +1,48 @@
+{
+  "name": "professionalweb/integration-hub-advcake",
+  "description": "Integration to AdvCake for integration hub",
+  "keywords": [
+    "laravel",
+    "proxy",
+    "integration",
+    "hub",
+    "advcake"
+  ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git@github.com:SergioMadness/integration-hub-aggregation.git"
+    }
+  ],
+  "license": "MIT",
+  "type": "library",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=7.1.3",
+    "ext-xmlwriter": "*",
+    "laravel/framework": "5.7.*",
+    "professionalweb/integration-hub-common": "dev-develop",
+    "professionalweb/integration-hub-aggregation": "dev-develop"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "classmap": [
+    ],
+    "psr-4": {
+      "professionalweb\\IntegrationHub\\IntegrationHubAdvCake\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "classmap": [
+    ]
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "professionalweb\\IntegrationHub\\IntegrationHubAdvCake\\Providers\\IntegrationHubAdvCakeProvider"
+      ]
+    }
+  }
+}
