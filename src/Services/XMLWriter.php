@@ -61,6 +61,8 @@ class XMLWriter implements Writer
         $xml->writeElement('url', $item->getUrl());
         $xml->endElement();
         $xml->flush();
+
+        return $this;
     }
 
     protected function getFileDescriptor(): \XMLWriter

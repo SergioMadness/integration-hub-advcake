@@ -40,10 +40,13 @@ class XMLGenerator implements Generator
         $limit = 100;
         $offset = 0;
 
-        $filter = [
-            ['created_at', '>=', $since],
-            ['created_at', '<=', $till],
-        ];
+        $filter = [];
+        if (!empty($since)) {
+            $filter[] = ['created_at', '>=', $since];
+        }
+        if (!empty($till)) {
+            $filter[] = ['created_at', '<=', $till];
+        }
 
         $namespace = config('advcake.namespace');
         $fileName = 'all.xml';
@@ -62,7 +65,7 @@ class XMLGenerator implements Generator
         }
         $iterations = ceil($qty / $limit);
 
-        $writer = $this->getWriter()->setPath($fileName);
+        $writer = $this->getWriter()->setPath(\Storage::disk('advCake')->url($fileName));
 
         for ($i = 0; $i < $iterations; $i++) {
             $items = $repository->get($filter, ['created_at' => 'desc'], $limit, $offset);
@@ -87,16 +90,18 @@ class XMLGenerator implements Generator
      */
     protected function prepareItem(Aggregation $model): Item
     {
+        $data = $this->mapData($model->data, config('advcake.mapping', []));
+
         return (new ExportItem())
             ->setId($model->item_id)
             ->setCreatedAt($model->created_at)
             ->setUpdatedAt($model->updated_at)
-            ->setDescription($model->getDataItem('description', ''))
-            ->setPrice($model->getDataItem('price', ''))
-            ->setPromoCode($model->getDataItem('promoCode', ''))
-            ->setStatus($model->getDataItem('status', ''))
-            ->setTrackId($model->getDataItem('trackId', ''))
-            ->setUrl($model->getDataItem('url', ''));
+            ->setDescription($data['description'])
+            ->setPrice((float)$data['price'])
+            ->setPromoCode($data['promoCode'])
+            ->setStatus($data['status'])
+            ->setTrackId($data['trackId'])
+            ->setUrl($data['url']);
     }
 
     /**
@@ -139,5 +144,35 @@ class XMLGenerator implements Generator
         $this->writer = $writer;
 
         return $this;
+    }
+
+    /**
+     * Data mapping
+     *
+     * @param array $data
+     * @param array $mapping
+     *
+     * @return array
+     */
+    protected function mapData(array $data, array $mapping): array
+    {
+        if (empty($mapping)) {
+            return $data;
+        }
+
+        $result = [];
+
+        foreach ($mapping as $from => $to) {
+            $val = $data[$from] ?? '';
+            if (is_array($to)) {
+                if (isset($to['mapping'])) {
+                    $val = str_replace(array_keys($to['mapping']), array_values($to['mapping']), $val);
+                }
+                $to = $to['field'];
+            }
+            $result[$to] = $val;
+        }
+
+        return $result;
     }
 }
