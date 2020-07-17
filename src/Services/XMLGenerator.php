@@ -65,7 +65,8 @@ class XMLGenerator implements Generator
         }
         $iterations = ceil($qty / $limit);
 
-        $writer = $this->getWriter()->setPath(\Storage::disk('advCake')->url($fileName));
+        $path = \Storage::disk('advCake')->path($fileName);
+        $writer = $this->getWriter()->setPath($path);
 
         for ($i = 0; $i < $iterations; $i++) {
             $items = $repository->get($filter, ['created_at' => 'desc'], $limit, $offset);
@@ -78,7 +79,7 @@ class XMLGenerator implements Generator
 
         $writer->save();
 
-        return $fileName;
+        return $path;
     }
 
     /**
@@ -117,8 +118,8 @@ class XMLGenerator implements Generator
     {
         $disk = \Storage::disk('advCake');
         if ($disk->exists($fileName)) {
-            if (Carbon::parse($disk->lastModified($fileName))->greaterThan($deadLine)) {
-                return $disk->url($fileName);
+            if (Carbon::createFromTimestamp($disk->lastModified($fileName))->greaterThan($deadLine)) {
+                return $disk->path($fileName);
             }
             $disk->delete($fileName);
         }
