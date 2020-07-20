@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use professionalweb\IntegrationHub\IntegrationHubAdvCake\Interfaces\Services\Generator;
 
 /**
@@ -12,8 +13,11 @@ class ExportController extends Controller
 {
     public function index(Request $request, Generator $generator)
     {
-        return response()->file(
-            $generator->generate($request->get('from'), $request->get('to'))
-        );
+        $pathToFile = $generator->generate($request->get('from'), $request->get('to'));
+        if (empty($pathToFile)) {
+            throw new NotFoundHttpException();
+        }
+
+        return response()->file($pathToFile);
     }
 }
