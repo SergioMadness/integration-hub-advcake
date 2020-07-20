@@ -164,7 +164,7 @@ class XMLGenerator implements Generator
         $result = [];
 
         foreach ($mapping as $from => $to) {
-            $val = $data[$from] ?? '';
+            $val = $data[$from] ?? ($to['default'] ?? '');
             if (is_array($to)) {
                 if (isset($to['mapping'])) {
                     $val = str_replace(array_keys($to['mapping']), array_values($to['mapping']), $val);
