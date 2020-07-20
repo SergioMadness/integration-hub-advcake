@@ -59,22 +59,21 @@ class XMLGenerator implements Generator
             return $path;
         }
 
-        $qty = $repository->count($filter);
-        if ($qty === 0) {
-            return '';
-        }
-        $iterations = ceil($qty / $limit);
-
         $path = \Storage::disk('advCake')->path($fileName);
         $writer = $this->getWriter()->setPath($path);
 
-        for ($i = 0; $i < $iterations; $i++) {
-            $items = $repository->get($filter, ['created_at' => 'desc'], $limit, $offset);
-            /** @var Aggregation $item */
-            foreach ($items as $item) {
-                $writer->write($this->prepareItem($item));
+        $qty = $repository->count($filter);
+        if ($qty > 0) {
+            $iterations = ceil($qty / $limit);
+
+            for ($i = 0; $i < $iterations; $i++) {
+                $items = $repository->get($filter, ['created_at' => 'desc'], $limit, $offset);
+                /** @var Aggregation $item */
+                foreach ($items as $item) {
+                    $writer->write($this->prepareItem($item));
+                }
+                $offset += $limit;
             }
-            $offset += $limit;
         }
 
         $writer->save();
