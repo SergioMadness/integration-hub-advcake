@@ -42,10 +42,10 @@ class XMLGenerator implements Generator
 
         $filter = [];
         if (!empty($since)) {
-            $filter[] = ['created_at', '>=', $since];
+            $filter[] = ['created_at', '>=', date('Y-m-d 00:00:00', strtotime($since))];
         }
         if (!empty($till)) {
-            $filter[] = ['created_at', '<=', $till];
+            $filter[] = ['created_at', '<=', date('Y-m-d 23:59:59', strtotime($till))];
         }
 
         $namespace = config('advcake.namespace');
