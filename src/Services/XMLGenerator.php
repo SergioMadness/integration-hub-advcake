@@ -93,7 +93,7 @@ class XMLGenerator implements Generator
         $data = $this->mapData($model->data, config('advcake.mapping', []));
 
         return (new ExportItem())
-            ->setId($model->item_id)
+            ->setId($data['id'])
             ->setCreatedAt($model->created_at)
             ->setUpdatedAt($model->updated_at)
             ->setDescription($data['description'])
