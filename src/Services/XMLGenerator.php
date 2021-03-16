@@ -103,7 +103,9 @@ class XMLGenerator implements Generator
             ->setStatus($data['status'])
             ->setTrackId($data['trackId'])
             ->setUrl($data['url'])
-            ->setOrderBasket($data['orderBasket'] ?? []);
+            ->setOrderBasket(array_filter($data['orderBasket'] ?? [], function ($item) {
+                return isset($item['price'], $item['id'], $item['name']) && !empty($item['price']) && !empty($item['id']) && !empty($item['name']);
+            }));
     }
 
     /**
