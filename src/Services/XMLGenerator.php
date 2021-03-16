@@ -1,5 +1,6 @@
 <?php namespace professionalweb\IntegrationHub\IntegrationHubAdvCake\Services;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use professionalweb\IntegrationHub\IntegrationHubAdvCake\Models\ExportItem;
 use professionalweb\IntegrationHub\IntegrationHubAdvCake\Interfaces\Models\Item;
@@ -170,7 +171,7 @@ class XMLGenerator implements Generator
                 }
                 $to = $to['field'];
             }
-            $result[$to] = $val;
+            Arr::set($result, $to, $val);
         }
 
         return $result;
