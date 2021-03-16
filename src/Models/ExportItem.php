@@ -35,6 +35,9 @@ class ExportItem implements Item
     /** @var string */
     private $url;
 
+    /** @var array */
+    private $orderBasket;
+
     /**
      * @param string $id
      *
@@ -219,5 +222,33 @@ class ExportItem implements Item
     public function getUrl(): string
     {
         return $this->url;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrderBasket(): array
+    {
+        return $this->orderBasket;
+    }
+
+    /**
+     * @param array $orderBasket
+     *
+     * @return ExportItem
+     */
+    public function setOrderBasket(array $orderBasket): ExportItem
+    {
+        $this->orderBasket = $orderBasket;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderBasketStr(): string
+    {
+        return (string)json_encode($this->orderBasket);
     }
 }

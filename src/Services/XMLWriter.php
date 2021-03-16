@@ -59,6 +59,7 @@ class XMLWriter implements Writer
         $xml->writeElement('dateCreate', $item->getCreatedAt());
         $xml->writeElement('dateLastChange', $item->getUpdatedAt());
         $xml->writeElement('url', $item->getUrl());
+        $xml->writeElement('orderBasket', $item->getOrderBasketStr());
         $xml->endElement();
         $xml->flush();
 

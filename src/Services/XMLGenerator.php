@@ -102,7 +102,8 @@ class XMLGenerator implements Generator
             ->setPromoCode($data['promoCode'])
             ->setStatus($data['status'])
             ->setTrackId($data['trackId'])
-            ->setUrl($data['url']);
+            ->setUrl($data['url'])
+            ->setOrderBasket($data['orderBasket'] ?? []);
     }
 
     /**
@@ -169,9 +170,13 @@ class XMLGenerator implements Generator
                 if (isset($to['mapping'])) {
                     $val = str_replace(array_keys($to['mapping']), array_values($to['mapping']), $val);
                 }
-                $to = $to['field'];
+                if (isset($to['field'])) {
+                    $to = $to['field'];
+                }
             }
-            Arr::set($result, $to, $val);
+            foreach ((array)$to as $toItem) {
+                Arr::set($result, $toItem, $val);
+            }
         }
 
         return $result;
