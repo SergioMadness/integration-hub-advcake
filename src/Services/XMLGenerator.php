@@ -19,7 +19,7 @@ class XMLGenerator implements Generator
     use UseAggregationRepository;
 
     /** @var Writer */
-    private $writer;
+    private Writer $writer;
 
     public function __construct(AggregationRepository $repository, Writer $writer)
     {

@@ -10,10 +10,10 @@ use professionalweb\IntegrationHub\IntegrationHubAdvCake\Interfaces\Services\Wri
 class XMLWriter implements Writer
 {
     /** @var string */
-    private $path;
+    private string $path;
 
     /** @var \XMLWriter */
-    private $xmlWriter;
+    private \XMLWriter $xmlWriter;
 
     /**
      * Set path to file

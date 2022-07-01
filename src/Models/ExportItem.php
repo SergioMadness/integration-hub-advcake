@@ -9,34 +9,34 @@ use professionalweb\IntegrationHub\IntegrationHubAdvCake\Interfaces\Models\Item;
 class ExportItem implements Item
 {
     /** @var string */
-    private $id;
+    private string $id;
 
     /** @var float */
-    private $price;
+    private float $price;
 
     /** @var string */
-    private $status;
+    private string $status;
 
     /** @var string */
-    private $trackId;
+    private string $trackId;
 
     /** @var string */
-    private $createdAt;
+    private string $createdAt;
 
     /** @var string */
-    private $updatedAt;
+    private string $updatedAt;
 
     /** @var string */
-    private $description;
+    private string $description;
 
     /** @var string */
-    private $promoCode;
+    private string $promoCode;
 
     /** @var string */
-    private $url;
+    private string $url;
 
     /** @var array */
-    private $orderBasket;
+    private array $orderBasket;
 
     /**
      * @param string $id
